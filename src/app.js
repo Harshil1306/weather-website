@@ -1,6 +1,9 @@
 const path = require('path');
 const express = require('express');
 const hbs = require('hbs');
+const geoCode = require('../utils/geoCode')
+const forcast = require('../utils/forecast');
+const forecast = require('../utils/forecast');
 
 const app = express();
 
@@ -39,6 +42,43 @@ app.get('/about', (req, res) => {
     });
 });
 
+app.get('/weather', (req, res) => {
+    // forcast(22, 70, (err, response) => {
+    //         // console.log(lat, lon);
+    //         if (err) {
+    //             return res.send(err);
+    //         }
+    //         return res.send({
+    //             forecast: response,
+    //             location: req.query.address
+    //         });
+    //     })
+    geoCode(req.query.address, (err, {lat, lon} = {}) => {
+        if (err) {
+            return res.send(err);
+        } 
+        forcast(lat, lon, (err, response) => {
+            console.log(lat, lon);
+            if (err) {
+                return res.send(err);
+            }
+            return res.send({
+                forecast: response,
+                location: req.query.address
+            });
+        })
+    })
+    // forcast(22, 70, (err, response) => {
+    //     if (err) {
+    //             return res.send(err);
+    //         }
+    //         return res.send({
+    //             forecast: response,
+    //             location: req.query.address
+    //         });
+    // })
+})
+
 app.get('/help/*splat', (req,res) => {
     res.render('404', {
         title: '404',
@@ -53,10 +93,6 @@ app.get('/*splat', (req,res) => {
         name: 'Harshil',
         errMsg: 'Page not found'
     })
-})
-
-app.get('weather', (req, res) => {
-    res.send('weather')
 })
 
 app.listen(3000, () => {
