@@ -2,7 +2,6 @@ const request = require('request');
 
 const forecast = (lat, lon, callback) => {
     const url = `https://api.weatherapi.com/v1//forecast.json?key=4db4caf5ad0f4b1f9a962756250712&q=${lat},${lon}`
-    console.log(url);
 
     request({ url, json: true }, (err, res) => {
         if (err) {

@@ -43,16 +43,6 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/weather', (req, res) => {
-    // forcast(22, 70, (err, response) => {
-    //         // console.log(lat, lon);
-    //         if (err) {
-    //             return res.send(err);
-    //         }
-    //         return res.send({
-    //             forecast: response,
-    //             location: req.query.address
-    //         });
-    //     })
     geoCode(req.query.address, (err, {lat, lon} = {}) => {
         if (err) {
             return res.send(err);
@@ -68,15 +58,6 @@ app.get('/weather', (req, res) => {
             });
         })
     })
-    // forcast(22, 70, (err, response) => {
-    //     if (err) {
-    //             return res.send(err);
-    //         }
-    //         return res.send({
-    //             forecast: response,
-    //             location: req.query.address
-    //         });
-    // })
 })
 
 app.get('/help/*splat', (req,res) => {
