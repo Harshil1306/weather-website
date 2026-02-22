@@ -45,12 +45,11 @@ app.get('/about', (req, res) => {
 app.get('/weather', (req, res) => {
     geoCode(req.query.address, (err, {lat, lon} = {}) => {
         if (err) {
-            return res.send(err);
+            return res.send({err});
         } 
         forcast(lat, lon, (err, response) => {
-            console.log(lat, lon);
             if (err) {
-                return res.send(err);
+                return res.send({err});
             }
             return res.send({
                 forecast: response,
